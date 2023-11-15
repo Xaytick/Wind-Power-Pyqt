@@ -1,4 +1,4 @@
-
+import sys
 try:
     from PyQt5.QtCore import Qt, QSize, QTimer
     from PyQt5.QtWidgets import QDialog, QVBoxLayout, QWidget, \
@@ -92,10 +92,8 @@ class Dialog(QDialog):
 
 
 if __name__ == '__main__':
-    import sys
-
     app = QApplication(sys.argv)
-    with open('login.qss') as file:
+    with open('MacOS.qss') as file:
         stylesheet = file.read()
     app.setStyleSheet(stylesheet)
     w = Dialog()
