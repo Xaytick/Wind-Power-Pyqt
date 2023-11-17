@@ -8,6 +8,10 @@
 QMainWindow {
     background-color:#ececec;
 }
+QWidget {
+	color: rgb(0, 160, 160);
+	border-color: rgb(58, 58, 58);
+}
 QPushButton, QToolButton, QCommandLinkButton{
     padding: 0 5px 0 5px;
     border-style: solid;

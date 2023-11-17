@@ -1,25 +1,32 @@
 import sys
 
-from PyQt5.QtCore import QSize, Qt
+from PyQt5.QtCore import QSize, Qt, pyqtSignal
 from PyQt5.QtWidgets import (QApplication, QMainWindow, QListWidget,
                              QStackedWidget, QWidget, QGridLayout, QSpacerItem, QSizePolicy, QPushButton)
-
 from windpower.page1 import Page1
 
 
-# Stylesheet = """
-# #Custom_Window {
-#     background-color: rgba(255, 255, 255, 180);
-# }
-#
-# #Custom_Widget {
-#     background-size: contain;
-#     background-position: left;
-#     border-radius: 10px;
-# }
-#
+Stylesheet = """
+#leftList{
+   background: rgb(240, 255, 255);
+}
+#leftList {
+  font-family: "Microsoft YaHei";
+  font-size: 16px;
+  font-weight: bold;
+}
+#leftList::item {
+    height: 100px;
+    width: 100px;
+    display: flex;
+    justify-content: center; 
+}
+"""
+
 
 class MainWindow(QMainWindow):
+
+    login_signal = pyqtSignal()
 
     def __init__(self):
         super().__init__()
@@ -27,13 +34,14 @@ class MainWindow(QMainWindow):
         self.setObjectName('Main_Window')
         self.setWindowFlags(self.windowFlags())
         self.setAutoFillBackground(True)
+        self.setStyleSheet(Stylesheet)
         # self.setAttribute(Qt.WA_TranslucentBackground)
-        # self.setStyleSheet(Stylesheet)
         self.initUi()
 
     def initUi(self):
         self.left_list = QListWidget()
         self.left_list.currentRowChanged.connect(self.display)
+        self.left_list.setObjectName("leftList")
         self.stack = QStackedWidget()
         # 主部件widget
         main_widget = QWidget()

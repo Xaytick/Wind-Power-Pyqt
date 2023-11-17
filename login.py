@@ -1,9 +1,10 @@
 import sys
+from windpower.frame import MainWindow
 try:
-    from PyQt5.QtCore import Qt, QSize, QTimer
+    from PyQt5.QtCore import Qt, QSize, QTimer, pyqtSignal
     from PyQt5.QtWidgets import QDialog, QVBoxLayout, QWidget, \
     QGraphicsDropShadowEffect, QPushButton, QGridLayout, QSpacerItem, \
-    QSizePolicy, QApplication, QLabel, QLineEdit, QCheckBox, QHBoxLayout
+    QSizePolicy, QApplication, QLabel, QLineEdit, QCheckBox, QHBoxLayout, QMessageBox
 except ImportError:
     from PySide2.QtCore import Qt, QSize, QTimer
     from PySide2.QtWidgets import QDialog, QVBoxLayout, QWidget, \
@@ -36,10 +37,12 @@ Stylesheet = """
 """
 
 
-class Dialog(QDialog):
+class LoginPage(QDialog):
+
+    login_signal = pyqtSignal()
 
     def __init__(self, *args, **kwargs):
-        super(Dialog, self).__init__(*args, **kwargs)
+        super(LoginPage, self).__init__(*args, **kwargs)
         self.setWindowTitle('登录')
         self.setObjectName('Custom_Dialog')
         self.setWindowFlags(self.windowFlags() | Qt.FramelessWindowHint)
@@ -66,6 +69,7 @@ class Dialog(QDialog):
         self.forgot_password_button = QPushButton('忘记密码?')
         self.widget = QWidget(self)
         self.widget.setObjectName('Custom_Widget')
+        self.login_button.clicked.connect(self.on_login_clicked)
         layout = QVBoxLayout(self)
         layout.addWidget(self.widget)
         layout.addWidget(self.username_label)
@@ -90,14 +94,25 @@ class Dialog(QDialog):
     def sizeHint(self):
         return QSize(300, 400)
 
+    def on_login_clicked(self):
+        # 登录验证逻辑
+        if self.username.text() == 'admin' and self.password.text() == '123456':
+            self.login_signal.emit()
+            self.close()
+        else:
+            QMessageBox.warning(self, 'Error', 'Incorrect username or password')
+
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     with open('MacOS.qss') as file:
         stylesheet = file.read()
     app.setStyleSheet(stylesheet)
-    w = Dialog()
-    w.resize(w.sizeHint())
-    w.exec_()
-    QTimer.singleShot(200, app.quit)
+    lp = LoginPage()
+    w = MainWindow()
+    lp.resize(lp.sizeHint())
+
+    lp.login_signal.connect(w.show)
+    lp.show()
+
     sys.exit(app.exec_())

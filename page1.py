@@ -15,7 +15,7 @@ class Page1(QWidget):
 
         for i in range(16):
             btn = QPushButton(f"机器{i + 1}")
-            btn.setMinimumSize(50, 50)
+            btn.setMinimumSize(80, 160)
             btn.clicked.connect(self.showDetails)
             grid.addWidget(btn, i // 4, i % 4)
 
