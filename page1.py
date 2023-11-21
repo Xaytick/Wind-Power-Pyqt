@@ -32,7 +32,7 @@ class Page1(QWidget):
             btn.clicked.connect(self.showDetails)
             grid.addWidget(btn, i // 4, i % 4)
         self.setLayout(grid)
-        self.setWindowTitle('风电机组')
+        self.setWindowTitle('机组实时监控')
 
     def showDetails(self):
         btn = self.sender()
@@ -42,6 +42,7 @@ class Page1(QWidget):
 
     def sizeHint(self):
         return QSize(600, 400)
+
 
 class DetailDialog(QDialog):
 
