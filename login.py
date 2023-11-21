@@ -1,7 +1,7 @@
 import sys
 from windpower.frame import MainWindow
 try:
-    from PyQt5.QtCore import Qt, QSize, QTimer, pyqtSignal
+    from PyQt5.QtCore import Qt, QSize, QTimer, pyqtSignal, QSettings
     from PyQt5.QtWidgets import QDialog, QVBoxLayout, QWidget, \
     QGraphicsDropShadowEffect, QPushButton, QGridLayout, QSpacerItem, \
     QSizePolicy, QApplication, QLabel, QLineEdit, QCheckBox, QHBoxLayout, QMessageBox
@@ -40,6 +40,7 @@ Stylesheet = """
 class LoginPage(QDialog):
 
     login_signal = pyqtSignal()
+    settings = QSettings('MyApp', 'MainWindow')
 
     def __init__(self, *args, **kwargs):
         super(LoginPage, self).__init__(*args, **kwargs)
@@ -64,6 +65,8 @@ class LoginPage(QDialog):
         self.username = QLineEdit()
         self.password = QLineEdit()
         self.password.setEchoMode(QLineEdit.Password)
+        self.settings.value('username', defaultValue='')
+        self.settings.value('password', defaultValue='')
         self.remember_me = QCheckBox('记住我')
         self.login_button = QPushButton('登录')
         self.forgot_password_button = QPushButton('忘记密码?')
@@ -97,10 +100,13 @@ class LoginPage(QDialog):
     def on_login_clicked(self):
         # 登录验证逻辑
         if self.username.text() == 'admin' and self.password.text() == '123456':
+            if self.remember_me.isChecked():
+                self.settings.setValue('username', self.username.text())
+                self.settings.setValue('password', self.password.text())
             self.login_signal.emit()
             self.close()
         else:
-            QMessageBox.warning(self, 'Error', 'Incorrect username or password')
+            QMessageBox.warning(self, 'Error', '用户名或密码错误')
 
 
 if __name__ == '__main__':
