@@ -17,7 +17,7 @@ QPushButton{
 """
 
 
-class Page1(QWidget):
+class Page11(QWidget):
 
     def __init__(self):
         super().__init__()
@@ -57,7 +57,7 @@ if __name__ == '__main__':
     with open('MacOS.qss') as file:
         stylesheet = file.read()
     app.setStyleSheet(stylesheet)
-    page = Page1()
+    page = Page11()
     page.resize(page.sizeHint())
     page.show()
     sys.exit(app.exec_())

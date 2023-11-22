@@ -3,8 +3,8 @@ import sys
 from PyQt5.QtCore import QSize, Qt, pyqtSignal
 from PyQt5.QtWidgets import (QApplication, QMainWindow, QListWidget,
                              QStackedWidget, QWidget, QGridLayout, QSpacerItem, QSizePolicy, QPushButton, QToolBar,
-                             QTreeWidget)
-from windpower.page1 import Page1
+                             QTreeWidget, QHBoxLayout, QTextEdit)
+from windpower.page11 import Page11
 
 
 Stylesheet = """
@@ -51,47 +51,47 @@ class MainWindow(QMainWindow):
         self.initUi()
 
     def initUi(self):
-        self.top_bar = QListWidget()
-        self.left_stacked = QStackedWidget()
-        self.left1 = QListWidget()
-        self.left2 = QTreeWidget()
-        self.top_bar.itemClicked.connect(self.change_left_bar)
-        self.top_bar.setObjectName('topBar')
+        self.pages = QStackedWidget(self)
+        self.toolbar = QToolBar()
+        self.toolbar.addAction('Page 1', lambda: self.pages.setCurrentIndex(0))
+        self.toolbar.addAction('Page 2', lambda: self.pages.setCurrentIndex(1))
+        self.addToolBar(self.toolbar)
+        self.add_page1()
+        self.add_page2()
 
-        self.left_stacked.addWidget(self.left1)
-        self.left_stacked.addWidget(self.left2)
-
-        self.left_list = QListWidget()
-        self.left_list.currentRowChanged.connect(self.display)
-        self.left_list.setObjectName('leftList')
-        self.stack = QStackedWidget()
-
-        main_widget = QWidget()
-        # 添加上边栏
-        layout = QGridLayout(main_widget)
-        layout.addWidget(self.top_bar, 0, 0, 1, 2)
-        # 添加左边栏
-        layout.addWidget(self.left_list, 1, 0)
-        layout.addWidget(self.stack, 1, 1)
-        # 设置列宽度比例 !!!
-        layout.setColumnStretch(0, 1)
-        layout.setColumnStretch(1, 6)
-
-        self.setCentralWidget(main_widget)
-        # 测试页面
-        self.page1 = Page1()
-        self.page2 = QWidget()
-        self.stack.addWidget(self.page1)
-        self.stack.addWidget(self.page2)
-        self.left_list.addItem('实时监控')
-        self.left_list.addItem('AGC控制')
-
+        self.setCentralWidget(self.pages)
 
     def display(self, index):
-        self.stack.setCurrentIndex(index)
+        self.stack1.setCurrentIndex(index)
 
-    def change_left_bar(self, index):
-        self.left_stacked.setCurrentIndex(index)
+    def add_page1(self):
+        self.p1 = QWidget()
+        layout = QGridLayout(self.p1)
+        side = QListWidget()
+
+        side.setObjectName('sideBar')
+        self.stack1 = QStackedWidget()
+        layout.addWidget(self.stack1, 0, 1)
+        layout.addWidget(side, 0, 0)
+        layout.setColumnStretch(0, 1)
+        layout.setColumnStretch(1, 6)
+        side.currentRowChanged.connect(self.display)
+
+        self.p11 = Page11()
+        self.stack1.addWidget(self.p11)
+        side.addItem('实时监控')
+
+        self.p12 = QWidget()
+        self.stack1.addWidget(self.p12)
+        side.addItem('AGC控制')
+
+        self.pages.addWidget(self.p1)
+
+
+
+    def add_page2(self):
+        self.p1 = QWidget()
+        self.pages.addWidget(self.p1)
 
     def sizeHint(self):
         return QSize(1080, 720)
