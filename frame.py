@@ -8,30 +8,36 @@ from windpower.page11 import Page11
 
 
 Stylesheet = """
-#topBar {
-    height: 30px;
-    width: 80px;
-    background-color: rgb(240, 255, 255);
-    spacing: 10px; /* 项目间距 */
-    padding: 5px; /* 内边距 */
-}
-#topBar::item {
-    height: 100px;
-    width: 100px;
-    display: flex;
-    justify-content: center; 
-}
-#leftList {
+#sideBar {
     background: rgb(240, 255, 255);
     font-family: "Microsoft YaHei";
     font-size: 16px;
     font-weight: bold;
 }
-#leftList::item {
+#sideBar::item {
     height: 100px;
     width: 100px;
     display: flex;
     justify-content: center; 
+}
+QToolBar {
+    spacing: 10px;  
+    background-image: url(hhu.png);
+
+    background-position: right center;
+    background-repeat: no;
+}
+
+QToolButton {
+    min-width: 26px;
+    min-height: 26px;
+    border-radius: 10px;
+    margin: 20px 20px 2px 166px; /*上右下左*/
+}
+QToolButton:hover {background: rgb(240, 255, 255);}
+QToolButton:pressed {background: rgb(100, 255, 255);}
+#Main_Window{
+    background: white
 }
 """
 
@@ -87,11 +93,9 @@ class MainWindow(QMainWindow):
 
         self.pages.addWidget(self.p1)
 
-
-
     def add_page2(self):
-        self.p1 = QWidget()
-        self.pages.addWidget(self.p1)
+        self.p2 = QWidget()
+        self.pages.addWidget(self.p2)
 
     def sizeHint(self):
         return QSize(1080, 720)
