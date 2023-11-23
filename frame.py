@@ -3,9 +3,9 @@ import sys
 from PyQt5.QtCore import QSize, Qt, pyqtSignal
 from PyQt5.QtWidgets import (QApplication, QMainWindow, QListWidget,
                              QStackedWidget, QWidget, QGridLayout, QSpacerItem, QSizePolicy, QPushButton, QToolBar,
-                             QTreeWidget, QHBoxLayout, QTextEdit)
+                             QTreeWidget, QHBoxLayout, QTextEdit, QVBoxLayout)
 from windpower.page11 import Page11
-
+from windpower.page12 import Page12
 
 Stylesheet = """
 #sideBar {
@@ -23,7 +23,7 @@ Stylesheet = """
 QToolBar {
     spacing: 10px;  
     background-image: url(hhu.png);
-
+    background-color: rgb(0, 147, 221);
     background-position: right center;
     background-repeat: no;
 }
@@ -32,12 +32,12 @@ QToolButton {
     min-width: 26px;
     min-height: 26px;
     border-radius: 10px;
-    margin: 20px 20px 2px 166px; /*上右下左*/
+    margin: 20px 20px 2px 0px; /*上右下左*/
 }
 QToolButton:hover {background: rgb(240, 255, 255);}
 QToolButton:pressed {background: rgb(100, 255, 255);}
 #Main_Window{
-    background: white
+    background: rgb(0, 147, 221)
 }
 """
 
@@ -59,8 +59,8 @@ class MainWindow(QMainWindow):
     def initUi(self):
         self.pages = QStackedWidget(self)
         self.toolbar = QToolBar()
-        self.toolbar.addAction('Page 1', lambda: self.pages.setCurrentIndex(0))
-        self.toolbar.addAction('Page 2', lambda: self.pages.setCurrentIndex(1))
+        self.toolbar.addAction('监控', lambda: self.pages.setCurrentIndex(0))
+        self.toolbar.addAction('分析', lambda: self.pages.setCurrentIndex(1))
         self.addToolBar(self.toolbar)
         self.add_page1()
         self.add_page2()
@@ -87,7 +87,7 @@ class MainWindow(QMainWindow):
         self.stack1.addWidget(self.p11)
         side.addItem('实时监控')
 
-        self.p12 = QWidget()
+        self.p12 = Page12()
         self.stack1.addWidget(self.p12)
         side.addItem('AGC控制')
 
