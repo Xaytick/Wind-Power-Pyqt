@@ -1,15 +1,10 @@
 import sys
 from windpower.frame import MainWindow
-try:
-    from PyQt5.QtCore import Qt, QSize, QTimer, pyqtSignal, QSettings
-    from PyQt5.QtWidgets import QDialog, QVBoxLayout, QWidget, \
-    QGraphicsDropShadowEffect, QPushButton, QGridLayout, QSpacerItem, \
-    QSizePolicy, QApplication, QLabel, QLineEdit, QCheckBox, QHBoxLayout, QMessageBox
-except ImportError:
-    from PySide2.QtCore import Qt, QSize, QTimer
-    from PySide2.QtWidgets import QDialog, QVBoxLayout, QWidget, \
-        QGraphicsDropShadowEffect, QPushButton, QGridLayout, QSpacerItem, \
-        QSizePolicy, QApplication
+from PyQt5.QtCore import Qt, QSize, QTimer, pyqtSignal, QSettings
+from PyQt5.QtWidgets import QDialog, QVBoxLayout, QWidget, \
+QGraphicsDropShadowEffect, QPushButton, QGridLayout, QSpacerItem, \
+QSizePolicy, QApplication, QLabel, QLineEdit, QCheckBox, QHBoxLayout, QMessageBox
+
 
 Stylesheet = """
 #Custom_Dialog {
@@ -40,7 +35,7 @@ Stylesheet = """
 class LoginPage(QDialog):
 
     login_signal = pyqtSignal()
-    settings = QSettings('MyApp', 'MainWindow')
+    settings = QSettings('MyApp', 'Login')
 
     def __init__(self, *args, **kwargs):
         super(LoginPage, self).__init__(*args, **kwargs)
